@@ -48,6 +48,12 @@ export default function App() {
   const [selectedApplianceId, setSelectedApplianceId] = useState<string>('ac-1');
   const [quickRecommendationApplied, setQuickRecommendationApplied] = useState<boolean>(false);
   const [isPeakSpikeActive, setIsPeakSpikeActive] = useState<boolean>(false);
+  const [hardwareData, setHardwareData] = useState({
+  voltage: 0,
+  current: 0,
+  power: 0,
+  status: 'OFF'
+});
 
   // Selected appliance object for deep-dive detail inspector
   const selectedAppliance = appliances.find((a) => a.id === selectedApplianceId) || appliances[0];
