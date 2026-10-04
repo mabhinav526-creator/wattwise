@@ -1,0 +1,6 @@
+{
+  "name": "WattWise - Smart Home Energy Monitor",
+  "description": "WattWise smart home energy monitor with real-time circuit telemetry, solar tracking, appliance automation, and tariff optimization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
