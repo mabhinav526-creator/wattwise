@@ -1,25 +1,38 @@
+let latestData = {
+  voltage: 0,
+  current: 0,
+  power: 0,
+  status: "OFF"
+};
+
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Only POST requests are allowed"
-    });
-  }
 
-  try {
-    const data = req.body;
+  // ESP32 sends data
+  if (req.method === "POST") {
+    latestData = {
+      voltage: Number(req.body.voltage || 0),
+      current: Number(req.body.current || 0),
+      power: Number(req.body.power || 0),
+      status: req.body.status || "ON"
+    };
 
-    console.log("Sensor data received:", data);
+    console.log("Hardware data:", latestData);
 
     return res.status(200).json({
       success: true,
-      message: "WattWise received sensor data",
-      data: data
-    });
-
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      error: "Failed to process sensor data"
+      data: latestData
     });
   }
+
+  // WattWise website requests latest data
+  if (req.method === "GET") {
+    return res.status(200).json({
+      success: true,
+      data: latestData
+    });
+  }
+
+  return res.status(405).json({
+    error: "Method not allowed"
+  });
 }
