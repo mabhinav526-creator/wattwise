@@ -97,9 +97,14 @@ export default function App() {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   // Real-time live total watts computed dynamically from active appliances
-  const liveTotalWatts = appliances
-    .filter((a) => a.status === 'on')
-    .reduce((sum, a) => sum + a.powerKw * 1000, 0);
+const applianceWatts = appliances
+  .filter((a) => a.status === 'on')
+  .reduce((sum, a) => sum + a.powerKw * 1000, 0);
+
+const liveTotalWatts =
+  hardwareData.power > 0
+    ? hardwareData.power
+    : applianceWatts;
 
   // Toggle appliance ON / OFF
   const handleToggleAppliance = (id: string) => {
