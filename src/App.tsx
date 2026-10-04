@@ -69,6 +69,29 @@ export default function App() {
       window.removeEventListener('click', handleGlobalClick, { capture: true });
     };
   }, []);
+  useEffect(() => {
+  const fetchHardwareData = async () => {
+    try {
+      const response = await fetch('/api/sensor');
+
+      if (!response.ok) return;
+
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        setHardwareData(result.data);
+      }
+    } catch (error) {
+      console.error('Hardware data error:', error);
+    }
+  };
+
+  fetchHardwareData();
+
+  const interval = setInterval(fetchHardwareData, 3000);
+
+  return () => clearInterval(interval);
+}, []);
 
   // Unread notifications count
   const unreadCount = notifications.filter((n) => !n.read).length;
